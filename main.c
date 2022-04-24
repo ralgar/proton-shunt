@@ -62,17 +62,40 @@ char* read_config(const char* file) {
 }
 
 
-int main(int argc, const char** argv) {
+// Process the arguments, wrapping them in double quotes to preserve integrity
+const char **process_arguments(int argc, char **argv) {
+
+    char buf[1024];
+
+    // Process all arguments
+    for (int i = 0; i < argc; i++) {
+        strcpy(buf, "\"");
+        strcat(buf, argv[i]);
+        strcat(buf, "\"");
+        strcpy(argv[i], buf);
+        strcpy(buf, "");
+    }
+
+    // Set argv[0] to shunt executable path
+    argv[0] = read_config(CONFIG_FILE);
+    if (argv[0] == NULL) {
+        return NULL;
+    }
+
+    return (const char **)argv;
+}
+
+
+int main(int argc, char** argv) {
 
 #ifdef HIDE_CONSOLE
     HWND hWnd = GetConsoleWindow();
     ShowWindow(hWnd, SW_HIDE);
 #endif
 
-    const char** shunt_argv = argv;
-    shunt_argv[0] = read_config(CONFIG_FILE);
+    const char **shunt_argv = process_arguments(argc, argv);
 
-    if (shunt_argv[0] == NULL) {
+    if (shunt_argv == NULL) {
         return 1;
     }
 
