@@ -1,2 +1,2 @@
-# Compiled executables
-*.exe
+# Build directory
+build/

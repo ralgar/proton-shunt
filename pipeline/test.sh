@@ -3,7 +3,7 @@
 _main() {
 
     if ! xvfb-run -a \
-        wine64 proton-shunt.exe \
+        wine64 build/proton-shunt.exe \
         arg1 \
         --arg2 \
         "https://arg3.tld/api/v1/endpoint?user_id=1234&file=5678" \

@@ -24,18 +24,18 @@ cppcheck:
   stage: code-analysis
   script:
     - apk add cppcheck
-    - cppcheck main.c tests/test.c
+    - cppcheck src/main.c tests/test.c
 
 compile:
   stage: build
   script:
     - apk add make mingw-w64-gcc
-    - make all
+    - make
+    - make tests
   artifacts:
     name: proton-shunt
     paths:
-      - tests/test.exe
-      - proton-shunt.exe
+      - build/
     expire_in: 1h
 
 shunt-test:
@@ -45,7 +45,7 @@ shunt-test:
     WINEPREFIX: "$CI_PROJECT_DIR/.wine"
   script:
     - apk add wine xvfb xvfb-run
-    - echo "tests/test.exe" > proton-shunt.cfg
+    - echo "build/tests/test.exe" > proton-shunt.cfg
     - winecfg
     - chmod u+x pipeline/test.sh
     - ./pipeline/test.sh
@@ -56,6 +56,6 @@ release:
     - if: $CI_COMMIT_TAG
   script:
     - apk add bash findutils github-cli
-    - mv proton-shunt.exe "proton-shunt-$CI_COMMIT_TAG.exe"
+    - mv build/proton-shunt.exe "build/proton-shunt-$CI_COMMIT_TAG.exe"
     - chmod u+x pipeline/github-release.sh
     - ./pipeline/github-release.sh

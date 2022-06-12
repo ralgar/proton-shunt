@@ -2,5 +2,5 @@
 # shellcheck disable=SC2034
 release_assets=( \
     "proton-shunt.cfg" \
-    "proton-shunt-$CI_COMMIT_TAG.exe" \
+    "build/proton-shunt-$CI_COMMIT_TAG.exe" \
 )

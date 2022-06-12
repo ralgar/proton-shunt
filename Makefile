@@ -1,15 +1,37 @@
-CC=x86_64-w64-mingw32-gcc
+CC = x86_64-w64-mingw32-gcc
 
-default: proton-shunt.exe
+CFLAGS = -Wall -Wextra -pedantic-errors
+LDFLAGS = # Paths to libraries, if required
+LDLIBS = #-lws2_32
 
-all: proton-shunt.exe test.exe
+TARGET_EXEC := proton-shunt.exe
 
-proton-shunt.exe: main.c
-	$(CC) -Wall -Wextra -pedantic-errors -o proton-shunt.exe main.c
+BUILD_DIR := ./build
+SRC_DIR := ./src
 
-test.exe: tests/test.c
-	$(CC) -Wall -Wextra -pedantic-errors -o tests/test.exe tests/test.c
+# Find all the source files we want to compile.
+SRCS := $(shell find $(SRC_DIR) -maxdepth 2 -name '*.c')
 
+# String substitution for every source file.
+# As an example, hello.c turns into ./build/hello.c.o
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
+
+# Final build step (link objects)
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $@
+
+# Build individual source files
+$(BUILD_DIR)/%.c.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Build tests
+tests: $(BUILD_DIR)/tests/test.exe
+
+$(BUILD_DIR)/tests/test.exe: tests/test.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $< -o $@
+
+# Cleanup build files
 clean:
-	rm -f proton-shunt.exe
-	rm -f tests/test.exe
+	rm -r $(BUILD_DIR)
