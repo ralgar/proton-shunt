@@ -3,19 +3,18 @@
 
 int main(int argc, const char **argv) {
 
-    char *arg[6];
+    char *arg[5];
 
     arg[1] = "arg1";
     arg[2] = "--arg2";
     arg[3] = "https://arg3.tld/api/v1/endpoint?user_id=1234&file=5678";
     arg[4] = "arg 4";
-    arg[5] = NULL;
 
     // Make sure # of args is correct
-    /*if (argc != 6) {
-        fprintf(stderr, "ERROR: Did not receive expected 5 (or 6 total) arguments\n");
+    if (argc != 5) {
+        fprintf(stderr, "ERROR: Did not receive expected 4 (or 5 total) arguments\n");
         return 1;
-    }*/
+    }
 
     // Loop through and compare args
     for (int i = 0; i < argc - 1; i++) {
