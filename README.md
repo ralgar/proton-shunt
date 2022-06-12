@@ -1,6 +1,6 @@
 # Proton Shunt
 [![Latest Release](https://img.shields.io/github/v/release/ralgar/proton-shunt?style=for-the-badge&logo=semver&logoColor=white)](https://github.com/ralgar/proton-shunt/releases)
-[![Master Branch Status](https://img.shields.io/github/checks-status/ralgar/proton-shunt/master?style=for-the-badge&logo=gitlab)](https://github.com/ralgar/proton-shunt/tree/master)
+[![Build Status](https://img.shields.io/github/checks-status/ralgar/proton-shunt/master?style=for-the-badge&logo=gitlab&label=Build)](https://github.com/ralgar/proton-shunt/tree/master)
 [![Software License](https://img.shields.io/github/license/ralgar/proton-shunt?style=for-the-badge&logo=gnu&logoColor=white)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![GitHub Stars](https://img.shields.io/github/stars/ralgar/proton-shunt?style=for-the-badge&logo=github&logoColor=white&color=gold)](https://github.com/ralgar/proton-shunt)
 
@@ -12,8 +12,8 @@ This project allows for launching alternate executables with Proton (Steam Play 
 - [x] Launch an alternate executable any time the game is started (ex. a mod manager).
 - [x] Flawless, like-native experience. No ugly flickering, or permanent console windows.
 - [x] Simple configuration file to adjust the path of the alternate executable.
-- [x] Properly preserves and passes through all arguments supplied by Steam.
-- [ ] Launch multiple executables, and configure arguments (coming soon).
+- [x] Properly preserves and passes through all arguments supplied via Steam.
+- [ ] Launch multiple executables, and configure arguments for each (coming soon).
 
 
 ## Usage
