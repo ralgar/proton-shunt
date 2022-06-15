@@ -48,7 +48,9 @@ shunt-test:
     - echo "build/tests/test.exe" > proton-shunt.cfg
     - winecfg
     - chmod u+x pipeline/test.sh
-    - ./pipeline/test.sh
+    - ./pipeline/test.sh arg_test
+    - touch proton-shunt.lock
+    - xvfb-run -a wine64 build/proton-shunt.exe --init-prefix
 
 release:
   stage: release

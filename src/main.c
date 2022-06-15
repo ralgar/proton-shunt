@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <fileapi.h>
 
 
 // Executes the specified command, passing through all args
@@ -30,6 +31,20 @@ int exec_shunt(const char* cmd, const char* const* argv) {
     } else {
         fprintf(stderr, "Failed to execute '%s' (ERRNO %i)\n", cmd, errno);
         return 1;
+    }
+}
+
+
+// Deletes a lock file, used for programmatic initialization of prefixes
+DWORD WINAPI deleteLockFile() {
+
+    LPCWSTR lockFile = L"proton-shunt.lock";
+
+    if (DeleteFileW(lockFile) == 0) {
+        fprintf(stderr, "Could not delete lock file: %ld\n", GetLastError());
+        return 1;
+    } else {
+        return 0;
     }
 }
 
@@ -92,6 +107,17 @@ int main(int argc, char** argv) {
     HWND hWnd = GetConsoleWindow();
     ShowWindow(hWnd, SW_HIDE);
 #endif
+
+    // Used for prefix initialization
+    if (argc > 1) {
+        if (strcmp(argv[1], "--init-prefix") == 0) {
+            if (deleteLockFile() == 0) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
 
     const char **shunt_argv = process_arguments(argc, argv);
 
